@@ -1,0 +1,183 @@
+Title,Published,Authors,Abstract,Link
+Link Climate: An Interoperable Knowledge Graph Platform for Climate Data,2022-10-28T10:52:50Z,"Jiantao Wu, Fabrizio Orlandi, Declan O'Sullivan, Soumyabrata Dev","Climate science has become more ambitious in recent years as global awareness
+about the environment has grown. To better understand climate, historical
+climate (e.g. archived meteorological variables such as temperature, wind,
+water, etc.) and climate-related data (e.g. geographical features and human
+activities) are widely used by today's climate research to derive models for an
+explainable climate change and its effects. However, such data sources are
+often dispersed across a multitude of disconnected data silos on the Web.
+Moreover, there is a lack of advanced climate data platforms to enable
+multi-source heterogeneous climate data analysis, therefore, researchers must
+face a stern challenge in collecting and analyzing multi-source data. In this
+paper, we address this problem by proposing a climate knowledge graph for the
+integration of multiple climate data and other data sources into one service,
+leveraging Web technologies (e.g. HTTP) for multi-source climate data analysis.
+The proposed knowledge graph is primarily composed of data from the National
+Oceanic and Atmospheric Administration's daily climate summaries,
+OpenStreetMap, and Wikidata, and it supports joint data queries on these widely
+used databases. This paper shows, with a use case in Ireland and the United
+Kingdom, how climate researchers could benefit from this platform as it allows
+them to easily integrate datasets from different domains and geographical
+locations.",http://arxiv.org/abs/2210.16050v1
+"How relevant is climate change research for climate change policy? An
+  empirical analysis based on Overton data",2022-03-10T13:18:11Z,"Lutz Bornmann, Robin Haunschild, Kevin Boyack, Werner Marx, Jan C. Minx","Climate change is an ongoing topic in nearly all areas of society since many
+years. A discussion of climate change without referring to scientific results
+is not imaginable. This is especially the case for policies since action on the
+macro scale is required to avoid costly consequences for society. In this
+study, we deal with the question of how research on climate change and policy
+are connected. In 2019, the new Overton database of policy documents was
+released including links to research papers that are cited by policy documents.
+The use of results and recommendations from research on climate change might be
+reflected in citations of scientific papers in policy documents. Although we
+suspect a lot of uncertainty related to the coverage of policy documents in
+Overton, there seems to be an impact of international climate policy cycles on
+policy document publication. We observe local peaks in climate policy documents
+around major decisions in international climate diplomacy. Our results point
+out that IGOs and think tanks -- with a focus on climate change -- have
+published more climate change policy documents than expected. We found that
+climate change papers that are cited in climate change policy documents
+received significantly more citations on average than climate change papers
+that are not cited in these documents. Both areas of society (science and
+policy) focus on similar climate change research fields: biology, earth
+sciences, engineering, and disease sciences. Based on these and other empirical
+results in this study, we propose a simple model of policy impact considering a
+chain of different document types: the chain starts with scientific assessment
+reports (systematic reviews) that lead via science communication documents
+(policy briefs, policy reports or plain language summaries) and government
+reports to legislative documents.",http://arxiv.org/abs/2203.05358v1
+On the Financing of Climate Change Adaptation in Developing Countries,2022-10-20T18:52:36Z,Francis X. Diebold,"I offer reflections on adaptation to climate change, with emphasis on
+developing areas.",http://arxiv.org/abs/2210.11525v1
+Climate-Contingent Finance,2022-07-05T14:15:19Z,John Nay,"Climate adaptation could yield significant benefits. However, the uncertainty
+of which future climate scenarios will occur decreases the feasibility of
+proactively adapting. Climate adaptation projects could be underwritten by
+benefits paid for in the climate scenarios that each adaptation project is
+designed to address because other entities would like to hedge the financial
+risk of those scenarios. Because the return on investment is a function of the
+level of climate change, it is optimal for the adapting entity to finance
+adaptation with repayment as a function of the climate. It is also optimal for
+entities with more financial downside under a more extreme climate to serve as
+an investing counterparty because they can obtain higher than market rates of
+return when they need it most.
+  In this way, parties proactively adapting would reduce the risk they
+over-prepare, while their investors would reduce the risk they under-prepare.
+This is superior to typical insurance because, by investing in
+climate-contingent mechanisms, investors are not merely financially hedging but
+also outright preventing physical damage, and therefore creating economic
+value. This coordinates capital through time and place according to parties'
+risk reduction capabilities and financial profiles, while also providing a
+diversifying investment return.
+  Climate-contingent finance can be generalized to any situation where entities
+share exposure to a risk where they lack direct control over whether it occurs
+(e.g., climate change, or a natural pandemic), and one type of entity can take
+proactive actions to benefit from addressing the effects of the risk if it
+occurs (e.g., through innovating on crops that would do well under extreme
+climate change or vaccination technology that could address particular viruses)
+with funding from another type of entity that seeks a targeted return to
+ameliorate the downside.",http://arxiv.org/abs/2207.02064v1
+"Analysis of various climate change parameters in India using machine
+  learning",2022-01-25T06:46:46Z,"Rutvij Wamanse, Tushuli Patil","Climate change in India is one of the most alarming problems faced by our
+community. Due to adverse and sudden changes in climate in past few years,
+mankind is at threat. Various impacts of climate change include extreme heat,
+changing rainfall patterns, droughts, groundwater, glacier melt, sea-level
+rise, and many more. Machine Learning can be used to analyze and predict the
+graph of change using previous data and thus design a model which in the future
+can furthermore be used to catalyze impactful work of climate change and take
+steps in the direction to help India fight against the upcoming climate
+changes. In this paper, we have analyzed 17 climate change parameters about
+India. We have applied linear regression, exponential regression, and
+polynomial regression to the parameters and evaluated the results. Using the
+designed model, we will predict these parameters for the years 2025,2030, 2035.
+These predicted values will thus help our community to prevent and take actions
+against the adverse and hazardous effects on mankind. We have designed and
+created this model which provides accurate results regarding all 17 parameters.
+The predicted values will therefore help India to be well equipped against
+climate change. This data when made available to the people of India will help
+create awareness among them and will help us save our country from the
+haphazard effects of climate change.",http://arxiv.org/abs/2201.10123v1
+"Revisiting the secondary climate attributes for transportation
+  infrastructure management: A Redux and Update for 2020",2022-02-25T03:33:50Z,"Tao Liao, Paul Kepley, Indraneel Kumar, Samuel Labi","Environmental conditions in various regions can have a severely negative
+impact on the longevity and durability of the civil engineering
+infrastructures. In 2018, a published paper used 1971 to 2010 NOAA data from
+the contiguous United States to examine the temporal changes in secondary
+climate attributes (freeze-thaw cycles and freeze index) using the climate
+normals from two time windows, 1971-2000 and 1981-2010. That paper investigated
+whether there have been statistically significant changes in climate attribute
+levels across the two time windows, and used GIS-based interpolation methods to
+develop isarithmic maps of the climate attributes to facilitate their
+interpretation and application. This paper updates that study. In this study,
+we use NOAA climatic data from 1991 to 2020 to construct continuous surface
+maps showing the values of the primary and secondary climate attributes at the
+48 continental states. The new maps provide an updated picture of the freeze
+index values and freeze-thaw cycles for the most recent climate condition.
+These new values provide a better picture of the freezing season
+characteristics of the United States, and will provide information necessary
+for better winter maintenance procedures and infrastructure design to
+accommodate regional climate differences.",http://arxiv.org/abs/2202.12480v1
+Economic activity and climate change,2022-06-07T11:18:15Z,"Aránzazu de Juan, Pilar Poncela, Vladimir Rodríguez-Caballero, Esther Ruiz","In this paper, we survey recent econometric contributions to measure the
+relationship between economic activity and climate change. Due to the critical
+relevance of these effects for the well-being of future generations, there is
+an explosion of publications devoted to measuring this relationship and its
+main channels. The relation between economic activity and climate change is
+complex with the possibility of causality running in both directions. Starting
+from economic activity, the channels that relate economic activity and climate
+change are energy consumption and the consequent pollution. Hence, we first
+describe the main econometric contributions about the interactions between
+economic activity and energy consumption, moving then to describing the
+contributions on the interactions between economic activity and pollution.
+Finally, we look at the main results on the relationship between climate change
+and economic activity. An important consequence of climate change is the
+increasing occurrence of extreme weather phenomena. Therefore, we also survey
+contributions on the economic effects of catastrophic climate phenomena.",http://arxiv.org/abs/2206.03187v2
+"A Multi-task Model for Sentiment Aided Stance Detection of Climate
+  Change Tweets",2022-11-07T13:19:44Z,"Apoorva Upadhyaya, Marco Fisichella, Wolfgang Nejdl","Climate change has become one of the biggest challenges of our time. Social
+media platforms such as Twitter play an important role in raising public
+awareness and spreading knowledge about the dangers of the current climate
+crisis. With the increasing number of campaigns and communication about climate
+change through social media, the information could create more awareness and
+reach the general public and policy makers. However, these Twitter
+communications lead to polarization of beliefs, opinion-dominated ideologies,
+and often a split into two communities of climate change deniers and believers.
+In this paper, we propose a framework that helps identify denier statements on
+Twitter and thus classifies the stance of the tweet into one of the two
+attitudes towards climate change (denier/believer). The sentimental aspects of
+Twitter data on climate change are deeply rooted in general public attitudes
+toward climate change. Therefore, our work focuses on learning two closely
+related tasks: Stance Detection and Sentiment Analysis of climate change
+tweets. We propose a multi-task framework that performs stance detection
+(primary task) and sentiment analysis (auxiliary task) simultaneously. The
+proposed model incorporates the feature-specific and shared-specific attention
+frameworks to fuse multiple features and learn the generalized features for
+both tasks. The experimental results show that the proposed framework increases
+the performance of the primary task, i.e., stance detection by benefiting from
+the auxiliary task, i.e., sentiment analysis compared to its uni-modal and
+single-task variants.",http://arxiv.org/abs/2211.03533v1
+"Perspectives on the importance of complex systems in understanding
+  ourclimate and climate change -- The Nobel Prize in Physics 2021",2022-03-07T12:19:35Z,"Shraddha Gupta, Nikolaos Mastrantonas, Cristina Masoller, Jürgen Kurths","The Nobel Prize in Physics 2021 was awarded to Syukuro Manabe, Klaus
+Hasselmann, and Giorgio Parisi for their 'groundbreaking contributions to our
+understanding of complex systems' including major advances in the understanding
+of our climate and climate change. In this perspective article, we review their
+key contributions and discuss their relevance in relation to the present
+understanding of our climate. We conclude by outlining some promising research
+directions and open questions in climate science.",http://arxiv.org/abs/2203.03331v2
+"Avoiding the ""Great Filter"": An Assessment of Climate Change Solutions
+  and Combinations for Effective Implementation",2022-04-30T02:25:14Z,"Junze Zhang, Kerry Zhang, Mary Zhang, Jonathan H. Jiang, Philip E. Rosen, Kristen A. Fahy","Climate change is the long-term shift in global weather patterns, largely
+caused by anthropogenic activity of greenhouse gas emissions. Global climate
+temperatures have unmistakably risen and naturally occurring climate
+variability alone cannot account for this trend. Human activities are estimated
+to have caused about 1.0 degree C of global warming above the pre-industrial
+baseline and if left unchecked, will continue to drastically damage the Earth
+and its inhabitants. Globally, natural disasters and subsequent economic losses
+have become increasingly impactful because of climate change. Both wildlife
+ecosystems and human habitats have been negatively impacted, from rising sea
+levels to alarming frequency of severe weather events around the world.
+Attempts towards alleviating the effects of global warming have often been at
+odds and remain divided among a multitude of strategies, reducing the overall
+effectiveness of these efforts. It is evident that collaborative action is
+required for avoiding the most severe consequences of climate change. This
+paper evaluates the main strategies (industrial/energy, political, economic,
+agricultural, atmospheric, geological, coastal, and social) towards both
+mitigating and adapting to climate change. As well, it provides an optimal
+combination of seven solutions which can be implemented simultaneously, working
+in tandem to limit and otherwise accommodate the harmful effects of climate
+change. Previous legislation and deployment techniques are also discussed as
+guides for future endeavors.",http://arxiv.org/abs/2205.00133v2
