@@ -102,7 +102,7 @@ def rag_search_ui():
         top_k = st.slider("Number of papers:", min_value=3, max_value=10, value=5)
     
     with col2:
-        use_openai = st.checkbox("Use OpenAI for response", value=True)
+        use_gemini = st.checkbox("Use Gemini for response", value=True)
     
     with col3:
         search_button = st.button("Search", type="primary", use_container_width=True)
@@ -125,9 +125,8 @@ def rag_search_ui():
             result = rag_service.perform_rag(
                 query=query,
                 top_k=top_k,
-                use_openai=use_openai,
-                use_cache=use_cache,
-                model=model
+                use_gemini=use_gemini,
+                use_cache=use_cache
             )
             
             # Display processing time

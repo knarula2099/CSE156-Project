@@ -10,7 +10,7 @@ from datetime import datetime
 
 import chromadb
 import numpy as np
-import openai
+import google.generativeai as genai
 from sentence_transformers import SentenceTransformer
 from dotenv import load_dotenv
 
@@ -46,7 +46,7 @@ class ClimateRAGService:
         # Initialize services
         self._init_vector_db()
         self._init_embedding_model()
-        self._init_openai()
+        self._init_gemini()
         
         # Initialize cache
         self.query_cache = self._load_cache()
@@ -61,8 +61,15 @@ class ClimateRAGService:
                 self.collection = self.client.get_collection(self.collection_name)
                 logger.info(f"Connected to existing collection with {self.collection.count()} documents")
             except ValueError:
-                logger.warning(f"Collection '{self.collection_name}' not found. Creating new collection.")
-                self.collection = self.client.create_collection(self.collection_name)
+                logger.warning(f"Collection '{self.collection_name}' not found. Trying other collections...")
+                collections = self.client.list_collections()
+                if collections:
+                    self.collection_name = collections[0].name
+                    self.collection = self.client.get_collection(self.collection_name)
+                    logger.info(f"Using collection '{self.collection_name}' with {self.collection.count()} documents")
+                else:
+                    logger.warning(f"No collections found. Creating new collection '{self.collection_name}'.")
+                    self.collection = self.client.create_collection(self.collection_name)
         except Exception as e:
             logger.error(f"Failed to initialize vector database: {str(e)}")
             raise
@@ -76,19 +83,28 @@ class ClimateRAGService:
             logger.error(f"Failed to load embedding model: {str(e)}")
             raise
 
-    def _init_openai(self):
-        """Initialize the OpenAI client"""
-        openai_api_key = os.getenv("OPENAI_API_KEY")
-        if not openai_api_key:
-            logger.warning("OPENAI_API_KEY not found in environment variables")
-            self.openai_client = None
+    def _init_gemini(self):
+        """Initialize the Gemini API client"""
+        google_api_key = os.getenv("GOOGLE_API_KEY")
+        if not google_api_key:
+            logger.warning("GOOGLE_API_KEY not found in environment variables")
+            self.gemini_available = False
         else:
             try:
-                self.openai_client = openai.OpenAI(api_key=openai_api_key)
-                logger.info("OpenAI client initialized")
+                genai.configure(api_key=google_api_key)
+                self.generation_config = {
+                    "temperature": 0.3,
+                    "top_p": 0.95,
+                    "top_k": 40,
+                    "max_output_tokens": 1000,
+                }
+                # Using the gemini-2.0-flash-lite model
+                self.model = genai.GenerativeModel('gemini-2.0-flash-lite')
+                self.gemini_available = True
+                logger.info("Gemini client initialized with model gemini-2.0-flash-lite")
             except Exception as e:
-                logger.error(f"Failed to initialize OpenAI client: {str(e)}")
-                self.openai_client = None
+                logger.error(f"Failed to initialize Gemini client: {str(e)}")
+                self.gemini_available = False
 
     def _load_cache(self) -> Dict:
         """Load query cache from disk"""
@@ -353,7 +369,7 @@ class ClimateRAGService:
             metadatas: Retrieved document metadata
             
         Returns:
-            Formatted prompt
+            Formatted prompt string for Gemini
         """
         system_prompt = """You are a climate research assistant that provides detailed, evidence-based answers.
 When responding to questions:
@@ -382,24 +398,24 @@ Based on these research papers:
         user_prompt += """Please provide a comprehensive answer with citations to the specific papers [1], [2], etc.
 If the information provided is insufficient, please state what is missing."""
         
-        return {"system": system_prompt, "user": user_prompt}
+        # Combine system and user prompts for Gemini
+        full_prompt = f"{system_prompt}\n\n{user_prompt}"
+        return full_prompt
 
-    def generate_response(self, query: str, documents: List[str], metadatas: List[Dict], 
-                         model: str = "gpt-4o-mini") -> str:
+    def generate_response(self, query: str, documents: List[str], metadatas: List[Dict]) -> str:
         """
-        Generate a response using OpenAI's LLM.
+        Generate a response using Gemini's LLM.
         
         Args:
             query: User query
             documents: Retrieved document texts
             metadatas: Retrieved document metadata
-            model: OpenAI model to use
             
         Returns:
             Generated response
         """
-        if not self.openai_client:
-            return "OpenAI client not available. Please check your API key and try again."
+        if not self.gemini_available:
+            return "Gemini API client not available. Please check your API key and try again."
         
         if not documents:
             return "No relevant documents found to answer your question."
@@ -412,18 +428,13 @@ If the information provided is insufficient, please state what is missing."""
             prompt = self.create_prompt(query, context_docs, context_meta)
             
             # Generate response
-            logger.info(f"Generating response using {model}")
-            response = self.openai_client.chat.completions.create(
-                model=model,
-                messages=[
-                    {"role": "system", "content": prompt["system"]},
-                    {"role": "user", "content": prompt["user"]}
-                ],
-                temperature=0.3,
-                max_tokens=1000
+            logger.info("Generating response using gemini-2.0-flash-lite")
+            response = self.model.generate_content(
+                prompt,
+                generation_config=self.generation_config
             )
             
-            return response.choices[0].message.content
+            return response.text
             
         except Exception as e:
             logger.error(f"Error generating response: {str(e)}")
@@ -431,7 +442,7 @@ If the information provided is insufficient, please state what is missing."""
 
     def create_fallback_response(self, query: str, documents: List[str], metadatas: List[Dict]) -> str:
         """
-        Create a fallback response when OpenAI is not available.
+        Create a fallback response when Gemini is not available.
         
         Args:
             query: User query
@@ -536,17 +547,16 @@ If the information provided is insufficient, please state what is missing."""
         except Exception as e:
             logger.error(f"Failed to log interaction: {str(e)}")
 
-    def perform_rag(self, query: str, top_k: int = 5, use_openai: bool = True, 
-                   use_cache: bool = True, model: str = "gpt-4o-mini") -> Dict[str, Any]:
+    def perform_rag(self, query: str, top_k: int = 5, use_gemini: bool = True, 
+                   use_cache: bool = True) -> Dict[str, Any]:
         """
         Perform the complete RAG pipeline.
         
         Args:
             query: User query
             top_k: Number of documents to retrieve
-            use_openai: Whether to use OpenAI for response generation
+            use_gemini: Whether to use Gemini for response generation
             use_cache: Whether to use the query cache
-            model: OpenAI model to use
             
         Returns:
             Dictionary with query results
@@ -566,7 +576,7 @@ If the information provided is insufficient, please state what is missing."""
         }
         
         # Check cache
-        cache_key = f"{query}_{top_k}_{use_openai}_{model}"
+        cache_key = f"{query}_{top_k}_{use_gemini}"
         if use_cache and cache_key in self.query_cache:
             cached_result = self.query_cache[cache_key]
             # Check if cache is recent (less than 1 day old)
@@ -583,8 +593,8 @@ If the information provided is insufficient, please state what is missing."""
             result["metadata"] = metadatas
             
             # Generate response
-            if use_openai and self.openai_client:
-                result["response"] = self.generate_response(query, documents, metadatas, model=model)
+            if use_gemini and self.gemini_available:
+                result["response"] = self.generate_response(query, documents, metadatas)
             else:
                 result["response"] = self.create_fallback_response(query, documents, metadatas)
             
