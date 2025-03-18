@@ -382,7 +382,9 @@ When responding to questions:
 3. Be accurate and nuanced - acknowledge uncertainties and limitations in the research
 4. If the papers don't fully address the question, acknowledge this
 5. Provide balanced views representing different scientific perspectives
-6. Explain scientific concepts clearly for a general audience"""
+6. Explain scientific concepts clearly for a general audience
+
+Make sure you still make the answer comprehensive and cohesive. Include some background information if necessary. Provide insight to the user, not just a summary of the papers."""
         
         user_prompt = f"""Question: {query}
 
