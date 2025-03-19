@@ -68,13 +68,5 @@ with st.sidebar:
     Data sourced from scientific research papers on climate change.
     """)
 
-# # Main content
-# if page == "Search":
-#     rag_search_ui()
-# elif page == "Analytics":
-#     rag_analytics_ui()
-# elif page == "Discussion":
-#     discussion_ui()
-
 page = st.navigation([rag_search_ui, rag_analytics_ui, discussion_ui])
 page.run()
