@@ -109,12 +109,6 @@ def rag_search_ui():
     
     # Advanced options in expander
     with st.expander("Advanced Options"):
-        model = st.selectbox(
-            "OpenAI Model:",
-            options=["gpt-4o-mini", "gpt-3.5-turbo", "gpt-4o", "gpt-4"],
-            index=0
-        )
-        
         use_cache = st.checkbox("Use cache (faster for repeated queries)", value=True)
         use_hybrid = st.checkbox("Use hybrid search (semantic + keyword)", value=True)
     
