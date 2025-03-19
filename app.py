@@ -1,6 +1,7 @@
 # dummy_app.py (rename to app.py if that's your preference)
 
 import streamlit as st
+import requests
 import sys
 import os
 
@@ -9,6 +10,9 @@ sys.path.append(os.path.abspath(os.path.dirname(__file__)))
 
 # Import components
 from frontend.components.rag_component import rag_search_ui, rag_analytics_ui
+from frontend.pages.Discussion import discussion_ui
+
+API_URL = "http://127.0.0.1:8000"
 
 # Page configuration
 st.set_page_config(
@@ -48,13 +52,14 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
+
 # Sidebar
 with st.sidebar:
     st.title("Climate Research Assistant")
     
     # Navigation
-    page = st.radio("Navigation", ["Search", "Analytics"])
-    
+    page = st.radio("Navigation", ["Search", "Analytics", "Discussion"])
+
     # About section
     st.markdown("---")
     st.subheader("About")
@@ -70,3 +75,5 @@ if page == "Search":
     rag_search_ui()
 elif page == "Analytics":
     rag_analytics_ui()
+elif page == "Discussion":
+    discussion_ui()
