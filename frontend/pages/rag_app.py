@@ -8,6 +8,7 @@ import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
 
 from frontend.components.rag_component import rag_search_ui, rag_analytics_ui
+from Discussion import discussion_ui
 
 # Page configuration
 st.set_page_config(
@@ -69,3 +70,5 @@ if page == "Search":
     rag_search_ui()
 elif page == "Analytics":
     rag_analytics_ui()
+elif page == "Discussion":
+    discussion_ui()
