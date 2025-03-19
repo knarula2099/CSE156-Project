@@ -82,7 +82,7 @@ def render_evaluation(evaluation: Dict):
 
 def rag_search_ui():
     """Render the RAG search UI component"""
-    st.title("Climate Research Assistant")
+    st.title("🔍 Green Lens")
     
     st.markdown("""
     Ask questions about climate change research, and I'll find relevant papers and generate a 

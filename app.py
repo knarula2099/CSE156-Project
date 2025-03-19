@@ -50,7 +50,8 @@ st.markdown("""
 
 # Sidebar
 with st.sidebar:
-    st.title("Climate Research Assistant")
+    st.logo("green-lens-logo.png", size="large")
+    st.title("Green Lens 🌍")
     
     # Navigation
     page = st.radio("Navigation", ["Search", "Analytics"])
