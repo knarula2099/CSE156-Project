@@ -9,7 +9,7 @@ import os
 sys.path.append(os.path.abspath(os.path.dirname(__file__)))
 
 # Import components
-from frontend.components.rag_component import rag_search_ui, rag_analytics_ui
+from frontend.components.rag_component import rag_search_ui, rag_analytics_ui, query_workflow_ui
 from frontend.pages.Discussion import discussion_ui
 
 API_URL = "http://127.0.0.1:8000"
@@ -61,7 +61,8 @@ with st.sidebar:
     pages = {
         "RAG Search": rag_search_ui,
         "Analytics": rag_analytics_ui,
-        "Discussion": discussion_ui
+        "Discussion": discussion_ui,
+        "Query workflow": query_workflow_ui
     }
     page = st.radio("Navigate", list(pages.keys()))
 
@@ -82,3 +83,5 @@ if page == "Analytics":
     rag_analytics_ui()
 if page == "Discussion":
     discussion_ui()
+if page == "Query workflow":
+    query_workflow_ui()
