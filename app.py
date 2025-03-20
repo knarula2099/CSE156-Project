@@ -57,6 +57,13 @@ st.markdown("""
 with st.sidebar:
     st.logo("green-lens-logo.png", size="large")
     st.title("Green Lens 🌍")
+    
+    pages = {
+        "RAG Search": rag_search_ui,
+        "Analytics": rag_analytics_ui,
+        "Discussion": discussion_ui
+    }
+    page = st.radio("Navigate", list(pages.keys()))
 
     # About section
     st.markdown("---")
@@ -68,5 +75,10 @@ with st.sidebar:
     Data sourced from scientific research papers on climate change.
     """)
 
-page = st.navigation([rag_search_ui, rag_analytics_ui, discussion_ui])
-page.run()
+# Render the selected page
+if page == "RAG Search":
+    rag_search_ui()
+if page == "Analytics":
+    rag_analytics_ui()
+if page == "Discussion":
+    discussion_ui()
