@@ -40,5 +40,3 @@ black
 
 asyncpg
 uvicorn
-python-dotenv 
-psycopg2
