@@ -40,3 +40,4 @@ black
 
 asyncpg
 uvicorn
+supabase
