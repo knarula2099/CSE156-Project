@@ -1,7 +1,6 @@
 # dummy_app.py (rename to app.py if that's your preference)
 
 import streamlit as st
-import requests
 import sys
 import os
 
@@ -12,7 +11,6 @@ sys.path.append(os.path.abspath(os.path.dirname(__file__)))
 from frontend.components.rag_component import rag_search_ui, rag_analytics_ui
 from frontend.pages.Discussion import discussion_ui
 
-API_URL = "http://127.0.0.1:8000"
 
 # Page configuration
 st.set_page_config(

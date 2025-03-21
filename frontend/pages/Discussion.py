@@ -1,7 +1,53 @@
 import streamlit as st
-import requests
+from supabase import create_client, Client
+import os
 
-API_URL = "http://127.0.0.1:8000"  # Change this to match your FastAPI URL
+# Supabase credentials
+SUPABASE_URL = 'https://cmdqgmqilcydypbfmjis.supabase.co'
+SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNtZHFnbXFpbGN5ZHlwYmZtamlzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI1MTMwMDIsImV4cCI6MjA1ODA4OTAwMn0.PZbgFvtVo2Ef-qZ9NlwO58orKnNOC6QlEs6lEVwNsdo"
+
+# Initialize Supabase client
+supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
+
+def save_user_profile(username, interests):
+    """Save user profile in the 'users' table."""
+    response = supabase.table("users").upsert({
+        "username": username,
+        "interests": interests
+    }).execute()
+    
+    return response
+
+def add_discussion(username, topic):
+    """Add a new discussion topic."""
+    response = supabase.table("discussions").insert({
+        "username": username,
+        "topic": topic
+    }).execute()
+    
+    return response
+
+def fetch_discussions():
+    """Fetch all discussions from the 'discussions' table."""
+    response = supabase.table("discussions").select("*").execute()
+    return response.data if response.data else []
+
+
+def add_reply(discussion_id, username, reply_text):
+    """Add a reply to a discussion."""
+    response = supabase.table("replies").insert({
+        "discussion_id": discussion_id,
+        "username": username,
+        "reply_text": reply_text
+    }).execute()
+    
+    return response
+
+def fetch_replies(discussion_id):
+    """Fetch replies for a specific discussion."""
+    response = supabase.table("replies").select("*").eq("discussion_id", discussion_id).execute()
+    return response.data if response.data else []
+
 
 def discussion_ui():
     """Renders the discussion page."""
@@ -17,7 +63,6 @@ def discussion_ui():
 
     # User profile section
     st.subheader("👤 User Profile")
-
     username = st.text_input("Enter your username:", value=st.session_state.username)
 
     # Save username in session state
@@ -31,21 +76,15 @@ def discussion_ui():
 
     # Save Profile = Login or Create New User
     if st.button("Save Profile (Login)"):
-        response = requests.post(f"{API_URL}/user/save_profile/", json={"name": username, "interests": interests})
-
-        # Check response before parsing JSON
-        if response.status_code == 200:
-            try:
-                data = response.json()
-                st.session_state.logged_in = True
-                st.session_state.username = username
-                st.session_state.user_interests = interests
-                st.success(data["message"])
-            except requests.exceptions.JSONDecodeError:
-                st.error("Error decoding JSON response from server.")
+        response = save_user_profile(username, interests)
+        
+        if response:
+            st.session_state.logged_in = True
+            st.session_state.username = username
+            st.session_state.user_interests = interests
+            st.success("Profile saved successfully!")
         else:
-            st.error(f"Failed to save profile! Status: {response.status_code}, Response: {response.text}")
-
+            st.error("Failed to save profile.")
 
     st.markdown("---")
 
@@ -55,70 +94,43 @@ def discussion_ui():
         submitted = st.form_submit_button("Add Discussion")
 
         if submitted and new_topic and username:
-            response = requests.post(f"{API_URL}/add_discussion/", json={"username": username, "topic": new_topic})
-            if response.status_code == 200:
+            response = add_discussion(username, new_topic)
+            if response:
                 st.success("Discussion added successfully!")
             else:
                 st.error("Failed to add discussion!")
 
+
     # Fetch and display all discussions
     st.subheader("📢 Existing Discussions")
+    discussions = fetch_discussions()
 
-    try:
-        response = requests.get(f"{API_URL}/get_discussions/")
-        
-        if response.status_code == 200:
-            discussions_data = response.json()  # Decode JSON safely
-            discussions = discussions_data.get("discussions", [])  # Handle missing key
+    if discussions:
+        for discussion in discussions:
+            with st.expander(f"🔹 {discussion['topic']} (by {discussion['username']})"):
+                discussion_id = discussion["id"]
+                
+                # Fetch replies
+                replies = fetch_replies(discussion_id)
+                if replies:
+                    for reply in replies:
+                        st.write(f"💬 **{reply['username']}:** {reply['reply_text']}")
+                else:
+                    st.write("No replies yet.")
 
-            if discussions:
-                for discussion in discussions:
-                    with st.expander(f"🔹 {discussion['topic']} (by {discussion['username']})"):
-                        # Fetch replies
-                        try:
-                            reply_response = requests.get(f"{API_URL}/get_replies/", params={"topic": discussion["topic"]})
-                            
-                            if reply_response.status_code == 200:
-                                replies_data = reply_response.json()
-                                replies = replies_data.get("replies", [])  # Handle missing key
+                # Reply form
+                with st.form(f"reply_form_{discussion_id}", clear_on_submit=True):
+                    reply_text = st.text_area(f"Reply to {discussion['topic']}:", key=f"reply_{discussion_id}")
+                    reply_submitted = st.form_submit_button("Submit Reply")
 
-                                if replies:
-                                    for reply in replies:
-                                        st.write(f"💬 **{reply['username']}:** {reply['reply']}")
-                                else:
-                                    st.write("No replies yet.")
+                    if reply_submitted and reply_text and username:
+                        response = add_reply(discussion_id, username, reply_text)
+                        if response:
+                            st.success("Reply added successfully!")
+                            st.session_state.reply_submitted = True
+                            st.rerun()
+                        else:
+                            st.error("Failed to add reply!")
 
-                        except requests.exceptions.RequestException as e:
-                            st.error(f"Error fetching replies: {e}")
-
-                        # Reply form
-                        with st.form(f"reply_form_{discussion['topic']}", clear_on_submit=True):
-                            reply_text = st.text_area(f"Reply to {discussion['topic']}:", key=f"reply_{discussion['topic']}")
-                            reply_submitted = st.form_submit_button("Submit Reply")
-
-                            if reply_submitted and reply_text and username:
-                                reply_payload = {
-                                    "username": username, 
-                                    "topic": discussion["topic"], 
-                                    "reply_text": reply_text
-                                }
-
-                                try:
-                                    reply_post_response = requests.post(f"{API_URL}/add_reply/", json=reply_payload)
-
-                                    if reply_post_response.status_code == 200:
-                                        st.success("Reply added successfully!")
-                                    else:
-                                        st.error("Failed to add reply!")
-
-                                except requests.exceptions.RequestException as e:
-                                    st.error(f"Error posting reply: {e}")
-
-            else:
-                st.write("No discussions available yet.")
-
-        else:
-            st.error(f"Failed to fetch discussions! Status Code: {response.status_code}")
-
-    except requests.exceptions.RequestException as e:
-        st.error(f"Error fetching discussions: {e}")
+    else:
+        st.write("No discussions available yet.")
