@@ -37,3 +37,8 @@ seaborn
 # Testing and development
 pytest
 black
+
+asyncpg
+uvicorn
+python-dotenv 
+psycopg2
